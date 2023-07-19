@@ -13,7 +13,7 @@ def post_detail(request,pk):
 
 def create_post(request):
     myPost=post()
-    if request.method=="POST":
+    if request.method=='POST':
         myPost.title = request.POST.get('title')
         myPost.author = request.POST.get('author','')
         myPost.content = request.POST.get('content')
@@ -24,4 +24,22 @@ def create_post(request):
     return render(
         request,
         'post/post_create.html'
+    )
+    
+def update_post(request, pk):
+    curPost = get_object_or_404(post, pk=pk)
+    if request.method=='POST':
+        curPost.title = request.POST.get('title')
+        curPost.author = request.POST.get('author','')
+        curPost.content = request.POST.get('content')
+        curPost.image = request.POST.get('image',None)
+        if curPost.title and curPost.content:
+            curPost.save()
+            return redirect('post_list')
+    return render(
+        request,
+        'post/post_update.html',
+        {
+            'curPost' : curPost,
+        },
     )

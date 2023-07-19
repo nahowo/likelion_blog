@@ -10,6 +10,7 @@
                 <img src="{{post.image}}" alt="{{post.title}}" width="300"/>
                 <p class="card-text">{{post.content}}</p>
                 <p>{{post.author}}, {{post.created_at}}</p>
+                <h5 class="mb-0"><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">수정</a></h6>
             </div>
         </section>
     </body>
