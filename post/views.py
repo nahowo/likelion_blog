@@ -43,3 +43,8 @@ def update_post(request, pk):
             'curPost' : curPost,
         },
     )
+
+def delete_post(request, pk):
+    delPost = get_object_or_404(post, pk=pk)
+    delPost.delete()
+    return redirect('post_list')
