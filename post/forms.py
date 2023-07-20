@@ -4,10 +4,12 @@ from .models import post
 class PostForm(forms.ModelForm):
     class Meta:
         model=post
-        field = (
+        fields = [
             'title',
             'author',
             'image',
-            'description',
-            'price',
-        )
+            'content',
+        ]
+        widgets = {
+            'image':forms.ClearableFileInput(attrs={'required':False}),
+        }

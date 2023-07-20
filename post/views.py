@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import post
+from .forms import PostForm
 
 
 # Create your views here.
@@ -17,7 +18,7 @@ def create_post(request):
         myPost.title = request.POST.get('title')
         myPost.author = request.POST.get('author','')
         myPost.content = request.POST.get('content')
-        myPost.image = request.POST.get('image',None)
+        myPost.image = request.FILES.get('image',None)
         if myPost.title and myPost.content:
             myPost.save()
             return redirect('post_list')
@@ -29,10 +30,17 @@ def create_post(request):
 def update_post(request, pk):
     curPost = get_object_or_404(post, pk=pk)
     if request.method=='POST':
+        form = PostForm(request.POST, request.FILES, instance=curPost)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail',pk=curPost.pk)
+        else:
+            form=PostForm(instance=curPost)
+        return render(request,'update_post.html',{'form':form})
         curPost.title = request.POST.get('title')
         curPost.author = request.POST.get('author','')
         curPost.content = request.POST.get('content')
-        curPost.image = request.POST.get('image',None)
+        curPost.image = request.FILES.get('image',None)
         if curPost.title and curPost.content:
             curPost.save()
             return redirect('post_list')

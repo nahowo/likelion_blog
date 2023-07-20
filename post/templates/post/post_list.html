@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -72,13 +72,17 @@
                             <!-- Blog post-->
                             {% for post in posts %}
                             <div class="card mb-4">
-                                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                                {% if post.image %}
+                                    <a href="{% url 'post_detail' pk=post.pk %}">
+                                    <img src="{{post.image.url}}" alt="{{post.title}}" width="400"/>
+                                {% endif %}
+                                    {% comment %} <img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a> {% endcomment %}
                                 <div class="card-body">
                                     <div class="small text-muted">{{post.date}}</div>
-                                    <h2 class="card-title h4"><a href="{% url 'post_detail' pk=post.pk %}">{{post.title}}</a></h2>
+                                    <h2 class="card-title h4">{{post.title}}</a></h2>
                                     <p class="card-text">{{post.author}}</p>
                                     <p class="card-text">{{post.content}}</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
+                                    <a class="btn btn-primary" href="{% url 'post_detail' pk=post.pk %}">자세히 보기</a>
                                 </div>
                             </div>
                             {% endfor %}

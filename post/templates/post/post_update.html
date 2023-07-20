@@ -12,6 +12,7 @@
 	<hr/>
 	<form method='post' enctype="multipart/form-data">
 		{% csrf_token %}
+		{{ form.as_p }}
 		<table>
 			<tbody>
 				<tr>
@@ -21,6 +22,10 @@
 				<tr>
 					<th><label for="id_content">본문:</label></th>
 					<td><textarea name="content" cols="40" rows="10" required="" id="id_content">{{ curPost.content}}</textarea></td>
+				</tr>
+				<tr>
+					<th><label for="id_image">이미지 업로드:</label></th>
+					<td><input name="image" type="file" id="id_image">{{ curPost.image}}</td>
 				</tr>
 				</tbody>
 			</table>
