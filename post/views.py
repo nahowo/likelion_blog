@@ -37,13 +37,6 @@ def update_post(request, pk):
         else:
             form=PostForm(instance=curPost)
         return render(request,'update_post.html',{'form':form})
-        curPost.title = request.POST.get('title')
-        curPost.author = request.POST.get('author','')
-        curPost.content = request.POST.get('content')
-        curPost.image = request.FILES.get('image',None)
-        if curPost.title and curPost.content:
-            curPost.save()
-            return redirect('post_list')
     return render(
         request,
         'post/post_update.html',

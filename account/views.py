@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib import auth
 from .forms import SignupForm, CustomUserChangeForm
@@ -52,8 +52,8 @@ def logout(request):
     return redirect('post_list')
 
 def delete(request):
-    user=request.user
-    user.delete()
+    User=request.user
+    User.delete()
     return redirect('post_list')
 
 def update(request):
@@ -76,3 +76,7 @@ def change_password(request):
     else:
         form=PasswordChangeForm(request.user)
     return render(request, 'account/change_password.html',{'form':form})
+
+def user_info(request):
+    user=request.user
+    return render(request,'account/userinfo.html',{'user':user})
