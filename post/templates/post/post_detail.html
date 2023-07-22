@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% extends 'post/post_list.html' %}
+{% block content %}
 <html lang="en">
     <head>
         <title>post app</title>
@@ -16,6 +17,6 @@
                 <h5 class="mb-0"><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
             </div>
         </section>
-        <a href="{% url 'post_list' %}">홈 화면</a>
     </body>
 </html>
+{% endblock %}

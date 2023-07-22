@@ -1,37 +1,42 @@
-<!DOCTYPE html>
-<a href="{% url "post_list" %}"><p>홈 화면</p></a>
-<h1>회원가입</h1>
-<h5>비밀번호는 숫자로만 구성되어서는 안 됩니다. <br>
-    비밀번호는 적어도 8글자 이상이어야 합니다. <br>
-    비밀번호에 너무 흔한 패턴을 사용할 수 없습니다. 
-</h5>
-<form method='post' action="{% url 'signup' %}">
-    {% if messages %}
-    <div class="messages">
-        <ul>
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{message.tags}}"{%endif%}>{{message}}</li>
-            {% endfor %}
-        </ul>
+{% extends 'post/post_list.html' %}
+{% block content %}
+<div class="container">
+    <div class="m-5">
+        <h1 class="fw-bolder">회원가입</h1>
+        <h7>비밀번호는 숫자로만 구성되어서는 안 됩니다. <br>
+            비밀번호는 적어도 8글자 이상이어야 합니다. <br>
+            비밀번호에 너무 흔한 패턴을 사용할 수 없습니다. 
+        </h7>
+        <form method='post' action="{% url 'signup' %}">
+            {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{message.tags}}"{%endif%}>{{message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% csrf_token %}
+            <div class="m-1">
+                <label>사용자 ID</label>
+                <input type="text" name="username" id="username" value="{{form.username.value|default_if_none:''}}">
+            </div>
+        	<div class="m-1">
+                <label>비밀번호</label>
+                <input type="password" name="password1" id="password1" value="{{form.password1.value|default_if_none:''}}">
+            </div>
+            <div class="m-1">
+                <label>비밀번호 확인</label>
+                <input type="password" name="password2" id="password2" value="{{form.password2.value|default_if_none:''}}">
+            </div>
+            <div class="m-1">
+                <label>별명</label>
+                <input type="text" name="nickname" id="nickname" value="{{form.nickname.value|default_if_none:''}}">
+            </div>
+            <button type="submit">회원가입</button>
+        </form>
     </div>
-    {% endif %}
-    {% csrf_token %}
-    <div>
-        <label>사용자 ID</label>
-        <input type="text" class="form-control" name="username" id="username" value="{{form.username.value|default_if_none:''}}">
-    </div>
-	<div>
-        <label>비밀번호</label>
-        <input type="password" name="password1" id="password1" value="{{form.password1.value|default_if_none:''}}">
-    </div>
-    <div>
-        <label>비밀번호 확인</label>
-        <input type="password" name="password2" id="password2" value="{{form.password2.value|default_if_none:''}}">
-    </div>
-    <div>
-        <label>별명</label>
-        <input type="text" name="nickname" id="nickname" value="{{form.nickname.value|default_if_none:''}}">
-    </div>
-    <button type="submit">회원가입</button>
-</form>
+</div>
 </html>
+{% endblock %}

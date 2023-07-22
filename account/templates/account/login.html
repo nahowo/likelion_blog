@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<a href="{% url "post_list" %}"><p>홈 화면</p></a>
-<h1>로그인</h1>
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <div>
-        <label>사용자 ID</label>
-        <input type="text" name="username" id="username">
+{% extends 'post/post_list.html' %}
+{% block content %}
+<body>
+    <div class="container">
+        <div class="m-5">
+            <h1 class="fw-bolder">로그인</h1>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="m-1">
+                    <label>사용자 ID</label>
+                    <input type="text" name="username" id="username">
+                </div>
+                <div class="m-1">
+                    <label>비밀번호</label>
+                    <input type="password" name="password" id="password">
+                </div class="m-1">
+                <button type="submit">로그인</button>
+            </form>
+        </div>
     </div>
-    <div>
-        <label>비밀번호</label>
-        <input type="password" name="password" id="password">
-    </div>
-    <button type="submit">로그인</button>
-</form>
+</body>
+{% endblock %}
