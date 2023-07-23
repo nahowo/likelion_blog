@@ -14,9 +14,10 @@ def post_detail(request,pk):
 
 def create_post(request):
     myPost=post()
+    User=request.user
     if request.method=='POST':
         myPost.title = request.POST.get('title')
-        myPost.author = request.POST.get('author','')
+        myPost.author = User
         myPost.content = request.POST.get('content')
         myPost.image = request.FILES.get('image',None)
         if myPost.title and myPost.content:
@@ -32,7 +33,9 @@ def update_post(request, pk):
     if request.method=='POST':
         form = PostForm(request.POST, request.FILES, instance=curPost)
         if form.is_valid():
-            form.save()
+            updated_post=form.save(commit=False)
+            updated_post.author=request.user
+            updated_post.save()
             return redirect('post_detail',pk=curPost.pk)
         else:
             form=PostForm(instance=curPost)

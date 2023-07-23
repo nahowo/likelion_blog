@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% extends 'post/post_list.html' %}
+{% block content %}
 {% load static %}
 <html lang="ko">
 <head>
@@ -8,28 +9,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-	<h1>게시물 수정하기</h1>
-	<hr/>
-	<form method='post' enctype="multipart/form-data">
-		{% csrf_token %}
-		{% comment %} {{ form.as_p }} {% endcomment %}
-		<table>
-			<tbody>
-				<tr>
-					<th><label for="id_title">제목:</label></th>
-					<td><input type="text" name="title" maxlength="30" required="" id="id_title" value="{{ curPost.title}}"></td>
-				</tr>
-				<tr>
-					<th><label for="id_content">본문:</label></th>
-					<td><textarea name="content" cols="40" rows="10" required="" id="id_content">{{ curPost.content}}</textarea></td>
-				</tr>
-				<tr>
-					<th><label for="id_image">이미지 업로드:</label></th>
-					<td><input name="image" type="file" id="id_image">{{ curPost.image}}</td>
-				</tr>
-				</tbody>
-			</table>
-			<button type="submit" class="btn btn-primary" style="margin-left: 350px;">발행</button>
-	</form>
+	<div class="container">
+		<div class="m-5">
+			<h1>게시물 수정하기</h1>
+			<hr/>
+			<form method='post' enctype="multipart/form-data">
+				{% csrf_token %}
+				<table>
+					<tbody>
+						<tr>
+							<th><label for="id_title">제목:</label></th>
+							<td><input type="text" name="title" maxlength="30" required="" id="id_title" value="{{ curPost.title}}"></td>
+						</tr>
+						<tr>
+							<th><label for="id_content">본문:</label></th>
+							<td><textarea name="content" cols="40" rows="10" required="" id="id_content">{{ curPost.content}}</textarea></td>
+						</tr>
+						<tr>
+							<th><label for="id_image">이미지 업로드:</label></th>
+							<td><input name="image" type="file" id="id_image">{{ curPost.image}}</td>
+						</tr>
+						</tbody>
+					</table>
+					<button type="submit" class="btn btn-primary" style="margin-left: 370px;">발행</button>
+			</form>
+		</div>
+	</div>
 </body>
 </html>
+{% endblock %}

@@ -5,18 +5,24 @@
         <title>post app</title>
     </head>
     <body>
-        <h1>{{post.title}}</h1>
-        <section>
-            <div>
-                {% if post.image %}
-                    <img src="{{post.image.url}}" alt="{{post.title}}" width="500"/>
-                {% endif %}
-                <p class="card-text">{{post.content}}</p>
-                <p>{{post.author}}, {{post.created_at}}</p>
-                <h5 class="mb-0"><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">수정</a></h6>
-                <h5 class="mb-0"><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
+        <div class="container">
+            <div class="m-5">
+                <h1>{{post.title}}</h1>
+                <section>
+                    <div>
+                        {% if post.image %}
+                            <img src="{{post.image.url}}" alt="{{post.title}}" width="500" class="mt-3 mb-3"/>
+                        {% endif %}
+                        <p class="card-text">{{post.content}}</p>
+                        <p>{{post.author.nickname}}, {{post.created_at}}</p>
+                        {% if user.is_authenticated and user.username == post.author.username %}
+                            <h5 class="mb-0"><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a></h6>
+                            <h5 class="mb-0"><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
+                        {% endif %}
+                    </div>
+                </section>
             </div>
-        </section>
+        </div>
     </body>
 </html>
 {% endblock %}
