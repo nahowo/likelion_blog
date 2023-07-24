@@ -6,38 +6,45 @@
     </head>
     <body>
         <div class="container">
-            <div class="m-5">
-                <h1>{{post.title}}</h1>
+            <div class="m-5 fw-bold">
+                <h1 class="mb-5 fw-bolder">{{post.title}}</h1>
+                <p class="fw-bold fs-6 mb-1">{{post.author.nickname}}</p>
+                <p class="fw-light fs-6">{{post.created_at}}</p>
                 <section>
                     <div>
                         {% if post.image %}
                             <img src="{{post.image.url}}" alt="{{post.title}}" width="500" class="mt-3 mb-3"/>
                         {% endif %}
-                        <p class="card-text">{{post.content}}</p>
-                        <p>{{post.author.nickname}}, {{post.created_at}}</p>
+                        <p class="card-text fs-5">{{post.content}}</p>
                         {% if user.is_authenticated %}
                             {% if user.username == post.author.username %}
-                            <h5 class="mb-0"><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a></h6>
-                            <h5 class="mb-0"><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
+                            <h5 class=""><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a></h6>
+                            <h5 class=""><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
                             {% endif %}
-                            <div class='mt-3'>
-                                <form method='POST'>
-                                    {% csrf_token %}
-                                    <input name='content' type='text' value=''>
-                                    <input class='btn btn-primary' type='submit' value='저장'>
-                                </form>
-                            </div>
                         {% endif %}
                         <div class="card my-3">
-                            <div class="m-1">
-                                {{count}}개의 댓글
+                            <div class="my-3 mx-3">
+                                <div class="m-1">
+                                    <p class="fw-bold fs-5">{{count}}개의 댓글</p>
+                                    {% if user.is_authenticated %}
+                                        <div class='mt-3 mb-5'>
+                                            <form method='POST'>
+                                                {% csrf_token %}
+                                                <div class="input-group my-3">
+                                                    <input name='content' type="text" class="form-control" placeholder="댓글을 작성하세요">
+                                                  </div>
+                                                <input class='btn btn-primary col-auto' type='submit' value='댓글 작성'>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                    {% for comment in comments %}
+                                        <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }}</p>
+                                        <p class="fw-light fs-6">{{comment.updated_date}}</p>
+                                        <p class="fs-5">{{ comment.content }}</p>
+                                        <br>
+                                    {% endfor %}
+                                </div>
                             </div>
-                            {% for comment in comments %}
-                            <div class="my-3 mx-1">
-                                {{comment.content }} - {{comment.author.nickname }} - {{comment.updated_date}}
-                                <br>
-                            </div>
-                            {% endfor %}
                         </div>
                     </div>
                 </section>

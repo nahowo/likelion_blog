@@ -3,7 +3,6 @@ from .models import post
 from .forms import PostForm
 from comment.models import comment
 
-
 # Create your views here.
 def post_list(request):
     posts=post.objects.all()
@@ -12,7 +11,7 @@ def post_list(request):
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
     comments=comment.objects.filter(post=pk)
-    Count=comments.count()
+    count=comments.count()
     if request.method == "POST":
         myComment=comment()
         User=request.user
@@ -21,7 +20,7 @@ def post_detail(request,pk):
         myComment.content=request.POST.get('content')
         if myComment.content:
             myComment.save()
-    return render(request,'post/post_detail.html',{'post':Post, 'comments':comments, 'count':Count})
+    return render(request,'post/post_detail.html',{'post':Post, 'comments':comments, 'count':count})
 
 def create_post(request):
     myPost=post()
