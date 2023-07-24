@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Blog Home</title>
+        <title>Blog</title>
         <!-- Favicon-->
         {% comment %} <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" /> {% endcomment %}
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -60,9 +60,6 @@
                             <a class="btn btn-primary" href="#!">Read more →</a>
                         </div>
                     </div>
-                    {% if user.is_authenticated %}
-                        <h3><a href="{% url 'create' %}" class="btn btn-primary">글쓰기</a></h3>
-                    {% endif %}
                     <!-- Nested row for non-featured blog posts-->
                     <div class="row">
                         <div class="col-lg-6">
@@ -76,7 +73,7 @@
                                 <div class="card-body">
                                     <div class="small text-muted">{{post.date}}</div>
                                     <h2 class="card-title h4">{{post.title}}</a></h2>
-                                    <p class="card-text">{{post.author}}</p>
+                                    <p class="card-text">{{post.author.nickname}}</p>
                                     <p class="card-text">{{post.content}}</p>
                                     <a class="btn btn-primary" href="{% url 'post_detail' pk=post.pk %}">자세히 보기</a>
                                 </div>
@@ -102,6 +99,9 @@
                 <!-- Side widgets-->
                 <div class="col-lg-4">
                     <!-- Search widget-->
+                    {% if user.is_authenticated %}
+                        <h3 class="mb-4"><a href="{% url 'create' %}" class="btn btn-primary">글쓰기</a></h3>
+                    {% endif %}
                     <div class="card mb-4">
                         <div class="card-header">Search</div>
                         <div class="card-body">

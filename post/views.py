@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import post
 from .forms import PostForm
+from comment.models import comment
 
 
 # Create your views here.
@@ -10,7 +11,17 @@ def post_list(request):
 
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
-    return render(request,'post/post_detail.html',{'post':Post})
+    comments=comment.objects.filter(post=pk)
+    Count=comments.count()
+    if request.method == "POST":
+        myComment=comment()
+        User=request.user
+        myComment.post=Post
+        myComment.author=User
+        myComment.content=request.POST.get('content')
+        if myComment.content:
+            myComment.save()
+    return render(request,'post/post_detail.html',{'post':Post, 'comments':comments, 'count':Count})
 
 def create_post(request):
     myPost=post()
