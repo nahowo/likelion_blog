@@ -18,8 +18,8 @@
                         <p class="card-text fs-5">{{post.content}}</p>
                         {% if user.is_authenticated %}
                             {% if user.username == post.author.username %}
-                            <h5 class=""><a href="{% url 'update' post.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a></h6>
-                            <h5 class=""><a href="{% url 'delete' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h6>
+                            <h5 class=""><a href="{% url 'update_post' post.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a></h5>
+                            <h5 class=""><a href="{% url 'delete_post' post.pk %}" role="button" class="badge bg-secondary" style="text-decoration-line: none;">삭제</a></h5>
                             {% endif %}
                         {% endif %}
                         <div class="card my-3">
@@ -38,6 +38,8 @@
                                         </div>
                                     {% endif %}
                                     {% for comment in comments %}
+                                        <a href="{% url 'update_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a>
+                                        <a href="{% url 'delete_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">삭제</a>
                                         <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }}</p>
                                         <p class="fw-light fs-6">{{comment.updated_date}}</p>
                                         <p class="fs-5">{{ comment.content }}</p>

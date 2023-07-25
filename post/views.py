@@ -10,8 +10,7 @@ def post_list(request):
 
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
-    comments=comment.objects.filter(post=pk)
-    count=comments.count()
+    print(request.method)
     if request.method == "POST":
         myComment=comment()
         User=request.user
@@ -20,6 +19,8 @@ def post_detail(request,pk):
         myComment.content=request.POST.get('content')
         if myComment.content:
             myComment.save()
+    comments=comment.objects.filter(post=pk)
+    count=comments.count()
     return render(request,'post/post_detail.html',{'post':Post, 'comments':comments, 'count':count})
 
 def create_post(request):
@@ -49,7 +50,7 @@ def update_post(request, pk):
             return redirect('post_detail',pk=curPost.pk)
         else:
             form=PostForm(instance=curPost)
-        return render(request,'update_post.html',{'form':form})
+        return render(request,'post/update_post.html',{'form':form})
     return render(
         request,
         'post/post_update.html',
