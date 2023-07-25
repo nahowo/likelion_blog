@@ -14,7 +14,11 @@
         </div>
         <div class="row">
             <div class="text-center p-3">
-                <h3 class="fw">{{ user.email }}</h3><br>
+                <h3 class="fs-5">{{ user.email }}</h3><br>
+                <h5 class="fw-bold mb-3">작성한 글</h5>
+                {% for post in posts %}
+                    <h5 class="mb-0">{{ post.title }}</h5><br>
+                {% endfor %}
                 <a class="btn btn-primary m-1" href="{% url "update" %}">회원정보 수정</a><br>
                 <a class="btn btn-primary m-1" href="{% url "change_password" %}">비밀번호 변경</a>
                 <form action="{% url 'delete' %}" method='POST' class="m-1">

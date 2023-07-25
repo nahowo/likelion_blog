@@ -10,7 +10,6 @@ def post_list(request):
 
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
-    print(request.method)
     if request.method == "POST":
         myComment=comment()
         User=request.user

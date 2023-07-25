@@ -38,8 +38,10 @@
                                         </div>
                                     {% endif %}
                                     {% for comment in comments %}
-                                        <a href="{% url 'update_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a>
-                                        <a href="{% url 'delete_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">삭제</a>
+                                        {% if user.is_authenticated and user.username == comment.author.username %}
+                                            <a href="{% url 'update_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a>
+                                            <a href="{% url 'delete_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">삭제</a>
+                                        {% endif %}
                                         <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }}</p>
                                         <p class="fw-light fs-6">{{comment.updated_date}}</p>
                                         <p class="fs-5">{{ comment.content }}</p>
