@@ -5,7 +5,7 @@ from comment.models import comment
 
 # Create your views here.
 def post_list(request):
-    posts=post.objects.all()
+    posts=post.objects.all().order_by('-pk')
     return render(request, 'post/post_list.html',{'posts':posts})
 
 def post_detail(request,pk):
