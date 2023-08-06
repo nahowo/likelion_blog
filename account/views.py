@@ -84,11 +84,8 @@ def change_password(request):
     return render(request, 'account/change_password.html',{'form':form})
 
 def user_info(request):
-<<<<<<< HEAD
     session=request.COOKIES['sessionid']
-=======
     session = request.COOKIES['sessionid']
->>>>>>> test
     session = Session.objects.get(session_key=session)
     session_data = session.get_decoded()
     uid = session_data.get('_auth_user_id')
