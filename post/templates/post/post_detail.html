@@ -38,11 +38,13 @@
                                         </div>
                                     {% endif %}
                                     {% for comment in comments %}
-                                        {% if user.is_authenticated and user.username == comment.author.username %}
+                                        {% if user.is_authenticated and comment.author.username == post.author.username %}
                                             <a href="{% url 'update_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">수정</a>
                                             <a href="{% url 'delete_comment' post.pk comment.pk %}" role="button" class="badge bg-secondary mb-1" style="text-decoration-line: none;">삭제</a>
+                                            <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }} [글 작성자]</p>
+                                        {% else %}
+                                            <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }}</p>
                                         {% endif %}
-                                        <p class="fw-bold fs-6 mb-1">{{comment.author.nickname }}</p>
                                         <p class="fw-light fs-6">{{comment.updated_date}}</p>
                                         <p class="fs-5">{{ comment.content }}</p>
                                         <br>
