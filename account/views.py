@@ -5,6 +5,7 @@ from .forms import SignupForm, CustomUserChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from post.models import post
+from comment.models import comment
 
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
@@ -83,9 +84,11 @@ def change_password(request):
     return render(request, 'account/change_password.html',{'form':form})
 
 def user_info(request):
+    session = request.COOKIES['sessionid']
     session = Session.objects.get(session_key=session)
     session_data = session.get_decoded()
     uid = session_data.get('_auth_user_id')
     user = User.objects.get(id=uid)
     posts=post.objects.filter(author=user)
-    return render(request,'account/userinfo.html',{'user':user,'posts':posts})
+    comments=comment.objects.filter(author=user)
+    return render(request,'account/userinfo.html',{'user':user,'posts':posts, 'comments':comments})
