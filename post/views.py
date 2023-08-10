@@ -2,10 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import post
 from .forms import PostForm
 from comment.models import comment
+from django.db.models import Q
 
 # Create your views here.
 def post_list(request):
-    posts=post.objects.all().order_by('-pk')
+    posts=post.objects.all().order_by('-created_at')
     return render(request, 'post/post_list.html',{'posts':posts})
 
 def post_detail(request,pk):
@@ -62,3 +63,13 @@ def delete_post(request, pk):
     delPost = get_object_or_404(post, pk=pk)
     delPost.delete()
     return redirect('post_list')
+
+def search(request):
+    posts = post.objects.all().order_by("-created_at")
+    search = request.GET.get('search','')
+    if search:
+        search_list = posts.filter(
+            Q(title__icontains = search)|
+            Q(content__icontains = search)
+        )
+    return render(request, 'post/search.html', {'posts':search_list, 'search': search})

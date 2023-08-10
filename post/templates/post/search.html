@@ -1,0 +1,43 @@
+{% extends 'post/post_list.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-6 my-5">
+                    <div class="input-group">
+                        <form class="form-inline" action="{% url 'search' %}" method="get">
+                            {% csrf_token %}
+                            <input class="form-control" name="search" type="text" placeholder="검색할 단어를 입력하세요" value="{{search}}" aria-label="search" aria-describedby="button-addon">
+                            <button type="submit" class="btn btn-primary" id="button-addon">검색</button>
+                        </form>
+                    </div>
+                    <!-- Blog post-->
+                    {% if not posts %}
+                        <h2>검색 결과가 없습니다. </h2>
+                    {% else %}
+                        {% for post in posts %}
+                        <div class="card my-2">
+                            {% if post.image %}
+                                <a href="{% url 'post_detail' pk=post.pk %}">
+                                <img src="{{post.image.url}}" alt="{{post.title}}" width="400" class="m-2"/>
+                                </a>
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="small text-muted">{{post.date}}</div>
+                                <h2 class="card-title h4">{{post.title}}</a></h2>
+                                <p class="card-text">{{post.author.nickname}}</p>
+                                <p class="card-text">{{post.content}}</p>
+                                <a class="btn btn-primary" href="{% url 'post_detail' pk=post.pk %}">자세히 보기</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- Blog post-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
