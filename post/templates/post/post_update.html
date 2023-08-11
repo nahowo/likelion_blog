@@ -13,21 +13,30 @@
 		<div class="m-5">
 			<h1>게시물 수정하기</h1>
 			<hr/>
+			<!-- <form method='post' enctype="multipart/form-data" action="{% url 'update_post' pk=post.pk %}">
+				{% csrf_token %}
+				{{form.as_p}}
+				<button type="submit">수정</button>
+			</form> -->
 			<form method='post' enctype="multipart/form-data">
 				{% csrf_token %}
 				<table>
 					<tbody>
 						<tr>
 							<th><label for="id_title">제목:</label></th>
-							<td><input type="text" name="title" maxlength="30" required="" id="id_title" value="{{ curPost.title}}"></td>
+							<td><input type="text" name="title" maxlength="30" required="" id="id_title" value="{{ curPost.title }}"></td>
 						</tr>
 						<tr>
 							<th><label for="id_content">본문:</label></th>
-							<td><textarea name="content" cols="40" rows="10" required="" id="id_content">{{ curPost.content}}</textarea></td>
+							<td><textarea name="content" cols="40" rows="10" required="" id="id_content">{{ curPost.content }}</textarea></td>
 						</tr>
 						<tr>
 							<th><label for="id_image">이미지 업로드:</label></th>
-							<td><input name="image" type="file" id="id_image">{{ curPost.image}}</td>
+							<td><input name="image" type="file" id="id_image">{{ curPost.image }}</td>
+						</tr>
+						<tr>
+							<th><label for="id_category">카테고리:</label></th>
+							<td><input name="categoty" type="select" id="id_category">{{ curPost.category }}</td>
 						</tr>
 						</tbody>
 					</table>

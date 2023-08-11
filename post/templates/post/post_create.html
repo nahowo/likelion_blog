@@ -13,7 +13,7 @@
         <div class="m-5">
 			<h1>새 게시물 작성하기</h1>
 			<hr/>
-			<form method='post' enctype="multipart/form-data">
+			<!-- <form method='post' enctype="multipart/form-data">
 				{% csrf_token %}
 				<table>
 					<tbody>
@@ -29,9 +29,22 @@
 							<th><label for="id_image">이미지 업로드:</label></th>
 							<td><input name="image" type="file"></td>
 						</tr>
+						<tr>
+							<th><label for id="id_category">카테고리:</label></th>
+							<td><select class="form-select" aria-lable="카테고리를 선택하세요">
+								<option value=""></option>
+							</select>
+							</td>
+							<td><input type="select" name="category" id="id_category"></td>
+						</tr>
 						</tbody>
 					</table>
 					<button type="submit" class="btn btn-primary" style="margin-left: 350px;">발행</button>
+			</form> -->
+			<form method='post' enctype="multipart/form-data" action="{% url 'create' %}">
+				{% csrf_token %}
+				{{form.as_p}}
+				<button type="submit">제출</button>
 			</form>
         </div>
     </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import post
+from .models import post, Category
 from .forms import PostForm
 from comment.models import comment
 from django.db.models import Q
@@ -7,7 +7,9 @@ from django.db.models import Q
 # Create your views here.
 def post_list(request):
     posts=post.objects.all().order_by('-created_at')
-    return render(request, 'post/post_list.html',{'posts':posts})
+    categories = Category.objects.all()
+    print(categories)
+    return render(request, 'post/post_list.html',{'posts':posts, 'categories':categories})
 
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
@@ -31,12 +33,17 @@ def create_post(request):
         myPost.author = User
         myPost.content = request.POST.get('content')
         myPost.image = request.FILES.get('image',None)
+        category_num = request.POST.get('category')
+        category = Category.objects.get(id=category_num)
+        myPost.category = category
         if myPost.title and myPost.content:
             myPost.save()
             return redirect('post_list')
+    else:
+        form=PostForm()
     return render(
         request,
-        'post/post_create.html'
+        'post/post_create.html', {'form':form}
     )
     
 def update_post(request, pk):
@@ -58,7 +65,7 @@ def update_post(request, pk):
             'curPost' : curPost,
         },
     )
-
+    
 def delete_post(request, pk):
     delPost = get_object_or_404(post, pk=pk)
     delPost.delete()
@@ -73,3 +80,10 @@ def search(request):
             Q(content__icontains = search)
         )
     return render(request, 'post/search.html', {'posts':search_list, 'search': search})
+
+def category_view(request, category_slug):
+    category=get_object_or_404(Category, slug=category_slug)
+    category=Category.objects.get(slug=category_slug)
+    category_posts=post.objects.filter(category=category)
+    categories=Category.objects.all()
+    return render(request, "post/post_list.html",{"category":category, "posts":category_posts, "categories":categories})
