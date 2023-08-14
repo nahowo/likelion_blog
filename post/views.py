@@ -3,13 +3,28 @@ from .models import post, Category
 from .forms import PostForm
 from comment.models import comment
 from django.db.models import Q
+from django.core.paginator import Paginator, PageNotAnInteger
 
 # Create your views here.
 def post_list(request):
     posts=post.objects.all().order_by('-created_at')
     categories = Category.objects.all()
-    print(categories)
-    return render(request, 'post/post_list.html',{'posts':posts, 'categories':categories})
+    paginator = Paginator(posts, 5)
+    page=request.GET.get('page')
+    posts=paginator.get_page(page)
+    try:
+        curPage=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        curPage=paginator.page(page)
+    leftIndex = (int(page)-2)
+    if leftIndex<1:
+        leftIndex=1
+    rightIndex = (int(page)+2)
+    if rightIndex>paginator.num_pages:
+        rightIndex=paginator.num_pages
+    custom_range=range(leftIndex, rightIndex+1)
+    return render(request, 'post/post_list.html',{'posts':posts, 'categories':categories, 'paginator': paginator, 'curPage':curPage, 'range':custom_range})
 
 def post_detail(request,pk):
     Post=get_object_or_404(post,pk=pk)
@@ -84,6 +99,21 @@ def search(request):
 def category_view(request, category_slug):
     category=get_object_or_404(Category, slug=category_slug)
     category=Category.objects.get(slug=category_slug)
-    category_posts=post.objects.filter(category=category)
+    category_posts=post.objects.filter(category=category).order_by('-created_at')
     categories=Category.objects.all()
-    return render(request, "post/post_list.html",{"category":category, "posts":category_posts, "categories":categories})
+    paginator=Paginator(category_posts,5)
+    page=request.GET.get('page')
+    posts=paginator.get_page(page)
+    try:
+        curPage=paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        curPage=paginator.page(page)
+    leftIndex = (int(page)-2)
+    if leftIndex<1:
+        leftIndex=1
+    rightIndex = (int(page)+2)
+    if rightIndex>paginator.num_pages:
+        rightIndex=paginator.num_pages
+    custom_range=range(leftIndex, rightIndex+1)
+    return render(request, "post/post_list.html",{"category":category, "posts":posts, "categories":categories, 'curPage':curPage, 'range': custom_range})

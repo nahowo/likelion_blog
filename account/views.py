@@ -90,6 +90,6 @@ def user_info(request):
     session_data = session.get_decoded()
     uid = session_data.get('_auth_user_id')
     user = User.objects.get(id=uid)
-    posts=post.objects.filter(author=user)
-    comments=comment.objects.filter(author=user)
+    posts=post.objects.filter(author=user).order_by('-created_at')
+    comments=comment.objects.filter(author=user).order_by('-created_date')
     return render(request,'account/userinfo.html',{'user':user,'posts':posts, 'comments':comments})
