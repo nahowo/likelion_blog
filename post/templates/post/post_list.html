@@ -41,7 +41,7 @@
             <div class="container">
                 <div class="text-center my-5">
                     <h1 class="fw-bolder">Welcome to Blog Home!</h1>
-                    <p class="lead mb-0">블로그 소개글</p>
+                    <p class="lead mb-0">{{ user.nickname }}의 블로그입니다. </p>
                     {% if user.is_authenticated %}
                         {{ user.nickname }}님, 안녕하세요!
                     {% endif %}
