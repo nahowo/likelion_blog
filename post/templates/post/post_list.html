@@ -105,6 +105,8 @@
                             {% endfor %}
                             {% if curPage.has_next %}
                                 <li class="page-item"><a class="page-link" href="?page={{curPage.next_page_number}}" style="color: darkgray;" aria-disabled="true">&#10095</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="#" style="color: darkgray;" aria-disabled="true">&#10094</a></li>    
                             {% endif %}
                         </ul>
                     </nav>
