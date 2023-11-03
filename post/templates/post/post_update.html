@@ -18,7 +18,7 @@
 				{{form.as_p}}
 				<button type="submit">수정</button>
 			</form> -->
-			<form method='post' enctype="multipart/form-data">
+			<form method='post' enctype="multipart/form-data action="{% url 'update_post' pk=post.pk %}">
 				{% csrf_token %}
 				<table>
 					<tbody>
@@ -36,7 +36,7 @@
 						</tr>
 						<tr>
 							<th><label for="id_category">카테고리:</label></th>
-							<td><input name="categoty" type="select" id="id_category">{{ curPost.category }}</td>
+							<td><input name="category" type="select" id="id_category">{{ curPost.category }}</td>
 						</tr>
 						</tbody>
 					</table>
