@@ -63,27 +63,20 @@ def create_post(request):
     
 def update_post(request, pk):
     curPost = get_object_or_404(post, pk=pk)
-    if request.method=='POST':
+    if request.method == 'POST':
         curPost.title = request.POST.get('title')
-        curPost.author = request.user
         curPost.content = request.POST.get('content')
-        curPost.image = request.FILES.get('image',None)
+        curPost.image = request.FILES.get('image', None)
         category_num = request.POST.get('category')
         category = Category.objects.get(id=category_num)
         curPost.category = category
         if curPost.title and curPost.content:
             curPost.save()
-            return redirect('post_detail',pk=curPost.pk)
+            return redirect('post_detail', pk=curPost.pk)
     else:
-         form= PostForm(instance=curPost)
-    return render(
-       request,
-       'post/post_update.html',
-       {
-           'form': form,
-           'curPost':curPost,
-       },
-   ) 
+        form = PostForm(instance=curPost)
+        return render(request, 'post/post_update.html', {'post': curPost, 'form': form})
+
    
 def delete_post(request, pk):
     delPost = get_object_or_404(post, pk=pk)
